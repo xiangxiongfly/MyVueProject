@@ -7,6 +7,10 @@
 	<script src="./vue3.js"></script>
 	</head>
 	<body>
+		<p style="color:red">hello</p>
+
+		<p v-bind:style="">hello2</p>
+
 		<div id="counter">
 			<p>{{num}}</p>
 			<p>{{uname}}</p>
@@ -15,10 +19,7 @@
 		<script>
 			const Counter = {
 				data: function() {
-					return {
-						num: 0,
-						uname: "张三"
-					}
+
 				},
 				methods: {
 
