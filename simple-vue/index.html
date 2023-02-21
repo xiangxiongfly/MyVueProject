@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue3简单使用</title>
+    <script src="./vue3.js"></script>
+  </head>
+
+  <body>
+    <div id="counter">
+      <p>{{uname}}</p>
+      <p>{{age}}</p>
+    </div>
+
+    <script>
+      //配置对象
+      const counter = {
+        data: function () {
+          return {
+            uname: "小明",
+            age: 0,
+          };
+        },
+      };
+
+      //创建应用，传入配置对象
+      let app = Vue.createApp(counter)
+        //挂载
+        .mount("#counter");
+
+      //数据双向绑定
+      app.age = 18;
+    </script>
+  </body>
+</html>
