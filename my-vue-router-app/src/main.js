@@ -1,8 +1,11 @@
 import { createApp } from "vue";
 import "./style.css";
 import App from "./App.vue";
-//第五部：引入
+//引入
 import router from "./router";
 
+const app = createApp(App);
+//支持路由
+app.use(router);
 //挂载
-const app = createApp(App).use(router).mount("#app");
+app.mount("#app");

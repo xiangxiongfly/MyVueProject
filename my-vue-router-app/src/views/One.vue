@@ -1,0 +1,9 @@
+<template>
+    <p>样式一</p>
+    <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JS</li>
+        <li>Vue</li>
+    </ul>
+</template>
