@@ -1,5 +1,5 @@
 <script >
-import store from "./store"
+import store from "./store/store"
 import Home from "./views/Home.vue"
 
 export default {

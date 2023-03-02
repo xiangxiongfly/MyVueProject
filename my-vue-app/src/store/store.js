@@ -2,6 +2,7 @@
 import { reactive } from "vue";
 
 const store = {
+  //支持响应式
   state: reactive({
     msg: "hello world",
   }),
