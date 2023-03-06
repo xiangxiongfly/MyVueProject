@@ -7,7 +7,7 @@ export default {
             this.store.updateMsg();
         },
         request() {
-            //解决跨域问题
+            //使用代理解决跨域问题
             axios.get("/path/banner/json")
                 .then((res) => {
                     console.log(res);
@@ -17,6 +17,7 @@ export default {
 }
 </script>
 <template>
+    <h2>Home页面</h2>
     {{ store.state.msg }}
     <button @click="updateMsg">修改msg</button>
     <button @click="request">网络请求</button>

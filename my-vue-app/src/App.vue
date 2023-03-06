@@ -1,5 +1,5 @@
 <script >
-import store from "./store/store"
+import custom_store from "./custom_store"
 import Home from "./views/Home.vue"
 
 export default {
@@ -9,7 +9,7 @@ export default {
         }
     },
     provide: {
-        store
+        store: custom_store
     },
     components: {
         Home
@@ -69,6 +69,7 @@ export default {
     <button @click="count++">count++</button>
 
     <p>
+        自定义状态管理：
         <Home></Home>
     </p>
 </template>

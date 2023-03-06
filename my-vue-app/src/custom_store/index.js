@@ -1,4 +1,3 @@
-//状态管理
 import { reactive } from "vue";
 
 const store = {
