@@ -42,7 +42,7 @@ export default {
             console.log("监听方向键：", e.key);
         },
         rightClickFn() {
-            console.log("鼠标左键");
+            console.log("鼠标右键");
         },
         ctrlFn() {
             console.log("ctrlFn");
@@ -72,6 +72,11 @@ export default {
     <!-- 阻止事件冒泡 -->
     <div @click="fatherClick">
         <button @click.stop="childClick">阻止事件冒泡</button>
+    </div>
+    <!-- 只触发自身事件 -->
+    <div @click.self="fatherClick">
+        父元素点击
+        <button @click="childClick">子元素点击</button>
     </div>
     <!-- 阻止默认提交 -->
     <form action="">

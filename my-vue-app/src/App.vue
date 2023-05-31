@@ -46,6 +46,9 @@ export default {
         <a href="../src/组件之间跨级通信/provide_inject.html">
             <button>组件之间跨级通信</button>
         </a>
+        <a href="../src/过渡和动画/transition.html">
+            <button>过渡和动画</button>
+        </a>
         <a href="../src/组合式API-响应式/composition_reactive.html">
             <button>组合式API-响应式</button>
         </a>
