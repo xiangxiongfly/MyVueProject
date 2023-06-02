@@ -49,6 +49,15 @@ export default {
         <a href="../src/过渡和动画/transition.html">
             <button>过渡和动画</button>
         </a>
+        <a href="../src/混入mixins/mixin.html">
+            <button>mixins</button>
+        </a>
+        <a href="../src/自定义指令/directives.html">
+            <button>自定义指令</button>
+        </a>
+        <a href="../src/传送门teleport/teleport.html">
+            <button>传送门</button>
+        </a>
         <a href="../src/组合式API-响应式/composition_reactive.html">
             <button>组合式API-响应式</button>
         </a>
