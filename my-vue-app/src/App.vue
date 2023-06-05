@@ -62,7 +62,7 @@ export default {
             <button>组合式API-响应式</button>
         </a>
         <a href="../src/组合式API-watch/composition_watch.html">
-            <button>组合式API-响应式</button>
+            <button>组合式API-watch</button>
         </a>
         <a href="../src/组合式API-computed/composition_computed.html">
             <button>组合式API-computed</button>
