@@ -1,7 +1,3 @@
-# Vue 3 + Vite
+# Pinia
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Pinia 是一个基于 Vue 3 的状态管理库，它的目标是提供更好的类型支持和更好的利用 TypeScript 特性的方式来进行状态管理。相比于 Vuex 等其他状态管理库，它使用起来更加简单、轻量级、可维护性更高。

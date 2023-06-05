@@ -25,7 +25,10 @@ const User = () => import("../views/User.vue");
 
 //注册路由表
 const routes = [
-  { path: "/", name: "homePage", alias: "/home", component: Home },
+  //别名
+  // { path: "/", name: "homePage", alias: "/home", component: Home },
+  //多个别名
+  { path: "/", name: "homePage", alias: ["/home", "/index"], component: Home },
 
   //动态路由：
   { path: "/about/name/:name/age/:age", name: "about", component: About },

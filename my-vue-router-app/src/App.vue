@@ -6,9 +6,9 @@
   </p>
   <p>
     <!-- 动态参数 -->
-    <!-- <router-link to="/about/name/小明/age/18">跳转About页面</router-link> -->
+    <router-link to="/about/name/小白/age/18">跳转About页面（方式一）</router-link><br>
     <!-- 命名路由 -->
-    <router-link :to="{ name: 'about', params: { name: '小明', age: 18 } }">跳转About页面</router-link>
+    <router-link :to="{ name: 'about', params: { name: '小黑', age: 28 } }">跳转About页面（方式二）</router-link>
   </p>
   <p>
     <!-- 嵌套路由 -->
@@ -31,6 +31,7 @@
   <p>
     <router-link to="/user/小明/18/北京市">跳转User页面</router-link>
   </p>
+  <hr>
 
   <!-- 占位符 -->
   <router-view></router-view>
