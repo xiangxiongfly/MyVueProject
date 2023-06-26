@@ -1,9 +1,14 @@
 <template>
   <h1>Hello Router!</h1>
-  <p>
+  <div>
     <!-- 导航 -->
-    <router-link to="/">跳转Home页面</router-link>
-  </p>
+    <router-link to="/">通过path跳转Home页面</router-link><br>
+    <router-link :to="{ path: '/' }">通过path2跳转Home页面</router-link><br>
+    <router-link :to="{ name: 'homePage' }">通过name跳转Home页面</router-link><br>
+    <router-link to="/home">通过别名1跳转Home页面</router-link><br>
+    <router-link to="/index">通过别名2跳转Home页面</router-link><br>
+    <router-link to="/index" replace>替换Home页面</router-link><br>
+  </div>
   <p>
     <!-- 动态参数 -->
     <router-link to="/about/name/小白/age/18">跳转About页面（方式一）</router-link><br>
@@ -26,10 +31,10 @@
     <router-link to="/sidebar/info">跳转Sidebar页面（嵌套命名视图）</router-link>
   </p>
   <p>
-    <router-link to="/home">/home</router-link>
+    <router-link to="/user/小明/18/北京市">跳转User页面</router-link>
   </p>
   <p>
-    <router-link to="/user/小明/18/北京市">跳转User页面</router-link>
+    <router-link :to="{ name: 'login' }">跳转Login页面</router-link>
   </p>
   <hr>
 

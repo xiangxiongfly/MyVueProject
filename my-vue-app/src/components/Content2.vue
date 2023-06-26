@@ -8,13 +8,9 @@ export default {
         }
     },
     //可以替代mounted
-    setup(props, context) {
-        console.log(props, context);
-        const { message } = toRefs(props);
-        console.log(message.value);
-        onUpdated(() => {
-            console.log(message.value);
-        });
+    setup(props,{attrs}) {
+        //接收参数
+        console.log(props.message);
     }
 }
 </script>

@@ -21,6 +21,9 @@ export default {
                 color: "red",
                 'background-color': "grey",
                 fontSize: "30px"
+            },
+            styleObj2: {
+                border: "2px dashed black"
             }
         }
     },
@@ -39,6 +42,7 @@ export default {
 <template>
     <!-- 使用class -->
     <p class="active">hello world1</p>
+    <!-- class样式绑定： -->
     <!-- 绑定对象 -->
     <p :class="{ active: isActive }">hello world2</p>
     <p :class="{ active: isActive, bgColor: isBgColor }">hello world3</p>
@@ -55,12 +59,13 @@ export default {
 
     <!-- 使用内联样式 -->
     <p style="color:red;">hello1</p>
+    <!-- style样式绑定： -->
     <!-- 绑定对象 -->
     <p :style="{ color: activeColor, 'background-color': bgColor, fontSize: fontSize }">hello2</p>
-    <!-- 绑定对象 -->
+    <!-- 绑定对象简写 -->
     <p :style="styleObj">hello3</p>
     <!-- 绑定数组 -->
-    <p :style="[styleObj]">hello4</p>
+    <p :style="[styleObj, styleObj2]">hello4</p>
 </template>
 
 <style>

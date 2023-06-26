@@ -5,6 +5,9 @@ export default {
             name: "小明123",
             age: 68,
             num: 0,
+            num100: function () {
+                return this.num + 100;
+            },
             rawHtml: "<h2 style='color:red;'>hello msg</h2>",
             userList: [
                 { name: "张三", age: 19, address: "北京" },
@@ -31,6 +34,7 @@ export default {
     <p>姓名：{{ name }}</p>
     <p>年龄：{{ age }}</p>
     <p>数量：{{ num }}</p>
+    <p>num100：{{ num100() }}</p>
 
     <!-- 使用html -->
     <p v-html="rawHtml"></p>
@@ -45,6 +49,11 @@ export default {
     <p v-else>老人</p>
 
     <!-- v-for遍历数组 -->
+    <ul>
+        <li v-for="item in userList">
+            姓名：{{ item.name }} 年龄：{{ item.age }} 地址：{{ item.address }}
+        </li>
+    </ul>
     <ul>
         <li v-for="(item, index) in userList">
             编号：{{ index }} 姓名：{{ item.name }} 年龄：{{ item.age }} 地址：{{ item.address }}
@@ -62,6 +71,25 @@ export default {
             {{ key }} : {{ value }}
         </li>
     </ul>
+    <ul>
+        <li v-for="(value, key, index) in userInfo">
+            {{ index }} - {{ key }} : {{ value }}
+        </li>
+    </ul>
+
+    <!-- v-for遍历字符串 -->
+    <ul>
+        <li v-for="(char, index) in name">
+            {{ char }} {{ index }}
+        </li>
+    </ul>
+
+    <!-- 指定遍历次数 -->
+    <ul>
+        <li v-for="(number, index) in 10">
+            {{ number }} {{ index }}
+        </li>
+    </ul>
 
     <!-- :key的使用 -->
     <ul>
@@ -72,4 +100,8 @@ export default {
     <button @click="addUser">添加user</button>
 </template>
 
-<style></style>
+<style>
+ul {
+    border: 1px dashed green;
+}
+</style>

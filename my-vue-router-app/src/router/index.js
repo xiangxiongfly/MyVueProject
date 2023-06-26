@@ -20,7 +20,9 @@ import Sidebar from "../views/sidebar/Sidebar.vue";
 import LeftSidebar from "../views/sidebar/LeftSidebar.vue";
 import MainContent from "../views/sidebar/MainContent.vue";
 import RightSidebar from "../views/sidebar/RightSidebar.vue";
+import Login from "../views/Login.vue";
 // import User from "../views/User.vue";
+// 路由懒加载
 const User = () => import("../views/User.vue");
 
 //注册路由表
@@ -38,6 +40,8 @@ const routes = [
   //   { path: "/about/name/:name/age/:age+", component: About },
   //动态路由：限制age可有可无
   //   { path: "/about/name/:name/age/:age*", component: About },
+
+  { path: "/login", name: "login", component: Login },
 
   //嵌套路由
   {
@@ -108,12 +112,37 @@ const router = createRouter({
 });
 
 //全局前置守卫
-router.beforeEach((to, from) => {
-  console.log("全局前置守卫");
-  console.log(to);
-  console.log(from);
+//返回值为false
+// router.beforeEach((to, from) => {
+//   console.log("全局前置守卫");
+//   console.log(to);
+//   console.log(from);
+//   return false;
+// });
 
-  // return false;
-});
+//全局前置守卫
+//返回值为路由地址
+// router.beforeEach((to, from) => {
+//   //重定向到Login页面
+//   let isLogin = false;
+//   if (to.name !== "login" && !isLogin) {
+//     return {
+//       name: "login",
+//       // 通过 replace 选项来进行路由跳转，不生成新的历史记录
+//       replace: true,
+//     };
+//   }
+// });
+
+//全局前置守卫
+//使用next
+// router.beforeEach((to, from, next) => {
+//   let isLogin = true;
+//   if (to.name !== "login" && !isLogin) {
+//     next({ name: "login" });
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

@@ -59,6 +59,7 @@ export default {
     <!-- 有序列表 -->
     <MyListSlot>
         <template v-slot:default="slotProps">
+            <p>{{ slotProps.message }}</p>
             <ol>
                 <li v-for="item in slotProps.list" :key="item">{{ item }}</li>
             </ol>
