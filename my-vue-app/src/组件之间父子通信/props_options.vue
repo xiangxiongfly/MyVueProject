@@ -1,20 +1,18 @@
 <script>
-import Content from "../components/Content.vue"
-import Father from "../components/Father.vue"
+import Father from "./components/Father.vue"
 export default {
     data() {
         return {
-            rootName: "根数据"
+
         }
     },
     components: {
-        Content,
         Father
     }
 }
 </script>
 
 <template>
-    <Content></Content>
+    <h1>组件之间父子通信(Options)</h1>
     <Father></Father>
 </template>
