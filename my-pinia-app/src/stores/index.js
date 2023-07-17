@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
-//使用选项API
+// 使用选项式API
 export const useUserStore = defineStore("user", {
   //类似于data
   state: () => {
@@ -13,8 +13,8 @@ export const useUserStore = defineStore("user", {
       console.log("state", state);
       return state.age + 10;
     },
+    //this指向store
     gettersAge2() {
-      //this指向store
       console.log("this", this);
       return this.age + 10;
     },
@@ -37,17 +37,34 @@ export const useUserStore = defineStore("user", {
   },
 });
 
-//使用setup
-export const useCounterStore = defineStore("counter", () => {
-  //相当于state
-  const counter = ref(30);
-  //相当于getters
-  const gettersCounter = computed(() => {
-    return counter.value + 5;
-  });
-  //相当于actions
-  function addCounter() {
-    counter.value++;
+// 使用组合式API
+export const useCounterStore = defineStore(
+  "counter",
+  () => {
+    // state
+    const counter = ref(30);
+    const num = ref(10);
+
+    // getters
+    const gettersCounter = computed(() => {
+      return counter.value + 5;
+    });
+    // actions
+    function addCounter() {
+      counter.value++;
+    }
+    function subCounter() {
+      counter.value--;
+    }
+    function addNum() {
+      num.value++;
+    }
+    return { counter, num, gettersCounter, addCounter, subCounter, addNum };
+  },
+  {
+    persist: {
+      key: "hello", // 唯一标识
+      paths: ["num"], //只保持num
+    },
   }
-  return { counter, gettersCounter, addCounter };
-});
+);
