@@ -1,79 +1,98 @@
-<script >
-export default {
-    data() {
-        return {
-            msg: "hello world",
-            checked: true,
-            fruits: [],
-            sex: "男",
-            city: "上海",
-            citys: [],
-            desc: "abc",
-            num: 0,
-            inputMsg: ""
-        }
-    },
-    methods: {
-        changeMsg(e) {
-            this.msg = e.target.value;
-        },
-        changeInput(e) {
-            console.log(this.inputMsg);
-        }
-    }
+<script setup>
+import { ref } from 'vue'
+
+let msg = ref("hello world")
+
+let searchText = ref("hello world")
+function inputChange(event) {
+    searchText.value = event.target.value
 }
+
+let content = ref("")
+
+let isAgree = ref(false)
+let fruits = ref([])
+
+let gender = ref("unknown")
+
+let hobby = ref("football")
+let hobbies = ref([])
+
+let text = ref("")
+
+let num = ref("")
+
+let message = ref("")
 </script>
 
 <template>
     <h1>v-model</h1>
-    <!-- v-model双向绑定 -->
-    <input type="text" v-model="msg">
-    <h3>{{ msg }}</h3>
+    <p>
+        <input type="text" v-model="msg">
+        {{ msg }}
+    </p>
+    <p>
+        <input type="text" :value="searchText" @input="inputChange">
+        {{ searchText }}
+    </p>
 
-    <!-- v-model原理： -->
-    <input type="text" :value="msg" @input="changeMsg"><br>
+    <p>
+        <textarea cols="30" rows="10" v-model="content"></textarea>
+        输入内容：{{ content }}
+    </p>
 
-    <!-- 单个多选框 -->
-    <input type="checkbox" v-model="checked">
-    <p>{{ checked }}</p>
+    <div>
+        <label for="agree">
+            <input id="agree" type="checkbox" v-model="isAgree"> 是否同意 <br>
+            {{ isAgree }}
+        </label>
+    </div>
+    <div>
+        <label for="apple">
+            <input id="apple" type="checkbox" value="apple" v-model="fruits">苹果
+        </label>
+        <label for="banana">
+            <input id="banana" type="checkbox" value="banana" v-model="fruits">香蕉
+        </label>
+        <label for="orange">
+            <input id="orange" type="checkbox" value="orange" v-model="fruits">橘子
+        </label>
+        <p>选中：{{ fruits }}</p>
+    </div>
 
-    <!-- 多选框 -->
-    <label><input type="checkbox" v-model="fruits" value="苹果">苹果</label>
-    <label><input type="checkbox" v-model="fruits" value="梨子">梨子</label>
-    <label><input type="checkbox" v-model="fruits" value="香蕉">香蕉</label>
-    <label><input type="checkbox" v-model="fruits" value="西瓜">西瓜</label>
-    <p>你喜欢的水果：{{ fruits }}</p>
+    <div>
+        <label for="unknown">
+            <input id="unknown" type="radio" value="unknown" v-model="gender"> 保密
+        </label>
+        <label for="boy">
+            <input id="boy" type="radio" value="boy" v-model="gender"> 男
+        </label>
+        <label for="girl">
+            <input id="girl" type="radio" value="girl" v-model="gender"> 女
+        </label>
+        <p>性别：{{ gender }}</p>
+    </div>
 
-    <!-- 单选框 -->
-    <input type="radio" v-model="sex" value="男">男
-    <input type="radio" v-model="sex" value="女">女
-    <p>你的性别：{{ sex }}</p>
-
-    <!-- 单选选项框 -->
-    <select v-model="city">
-        <option value="北京">北京</option>
-        <option value="上海">上海</option>
-        <option value="广州">广州</option>
+    <select v-model="hobby">
+        <option value="basketball">篮球</option>
+        <option value="football">足球</option>
+        <option value="tennis">网球</option>
     </select>
-    <p>你选的城市：{{ city }}</p>
+    <p>单选：{{ hobby }}</p>
 
-    <!-- 多选框 -->
-    <select v-model="citys" multiple>
-        <option value="北京">北京</option>
-        <option value="上海">上海</option>
-        <option value="广州">广州</option>
+    <select v-model="hobbies" multiple>
+        <option value="basketball">篮球</option>
+        <option value="football">足球</option>
+        <option value="tennis">网球</option>
     </select>
-    <p>你喜欢城市：{{ citys }}</p>
+    <p>多选：{{ hobbies }}</p>
 
-    <!-- v-model修饰符： -->
-    <!-- .lazy 当输入框失去焦点时执行 -->
-    <input type="text" v-model.lazy="desc">
-    <p>{{ desc }}</p>
-    <!-- .number 将输入框的内容转为number类型 -->
+    <input type="text" v-model.lazy="text">
+    <p>{{ text }}</p>
+
     <input type="text" v-model.number="num">
     <p>{{ num }} 类型：{{ typeof num }}</p>
-    <!-- .trim 清楚前后空格 -->
-    <input type="text" v-model.trim="inputMsg" @input="changeInput">
-</template>
 
-<style></style>
+    <input type="text" v-model.trim="message">
+    {{ message }}
+</template>

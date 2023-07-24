@@ -85,6 +85,9 @@ export default {
         <a href="../src/组合式API-setup/composition_setup.html">
             <button>组合式API-setup</button>
         </a>
+        <a href="../src/图书购物车/图书购物车.html">
+            <button>图书购物车</button>
+        </a>
     </div>
     <p>{{ count }}</p>
     <button @click="count++">count++</button>
