@@ -1,98 +1,71 @@
-<script setup>
-import { ref } from 'vue'
-
-let msg = ref("hello world")
-
-let searchText = ref("hello world")
-function inputChange(event) {
-    searchText.value = event.target.value
+<script>
+export default {
+    data() {
+        return {
+            msg: "hello",
+            msg2: "world",
+            userInfo: {
+                account: "",
+                password: "",
+                age: 18,
+                sex: "boy",
+                hobby: ["study"],
+                city: "beijing",
+                other: "",
+                agree: false
+            },
+            desc1: "",
+            desc2: "",
+            desc3: "",
+        }
+    },
+    methods: {
+        onConfirm() {
+            alert(`用户信息：${JSON.stringify(this.userInfo)}`)
+        }
+    }
 }
-
-let content = ref("")
-
-let isAgree = ref(false)
-let fruits = ref([])
-
-let gender = ref("unknown")
-
-let hobby = ref("football")
-let hobbies = ref([])
-
-let text = ref("")
-
-let num = ref("")
-
-let message = ref("")
 </script>
 
 <template>
     <h1>v-model</h1>
-    <p>
-        <input type="text" v-model="msg">
-        {{ msg }}
-    </p>
-    <p>
-        <input type="text" :value="searchText" @input="inputChange">
-        {{ searchText }}
-    </p>
-
-    <p>
-        <textarea cols="30" rows="10" v-model="content"></textarea>
-        输入内容：{{ content }}
-    </p>
-
-    <div>
-        <label for="agree">
-            <input id="agree" type="checkbox" v-model="isAgree"> 是否同意 <br>
-            {{ isAgree }}
-        </label>
-    </div>
-    <div>
-        <label for="apple">
-            <input id="apple" type="checkbox" value="apple" v-model="fruits">苹果
-        </label>
-        <label for="banana">
-            <input id="banana" type="checkbox" value="banana" v-model="fruits">香蕉
-        </label>
-        <label for="orange">
-            <input id="orange" type="checkbox" value="orange" v-model="fruits">橘子
-        </label>
-        <p>选中：{{ fruits }}</p>
-    </div>
-
-    <div>
-        <label for="unknown">
-            <input id="unknown" type="radio" value="unknown" v-model="gender"> 保密
-        </label>
-        <label for="boy">
-            <input id="boy" type="radio" value="boy" v-model="gender"> 男
-        </label>
-        <label for="girl">
-            <input id="girl" type="radio" value="girl" v-model="gender"> 女
-        </label>
-        <p>性别：{{ gender }}</p>
-    </div>
-
-    <select v-model="hobby">
-        <option value="basketball">篮球</option>
-        <option value="football">足球</option>
-        <option value="tennis">网球</option>
-    </select>
-    <p>单选：{{ hobby }}</p>
-
-    <select v-model="hobbies" multiple>
-        <option value="basketball">篮球</option>
-        <option value="football">足球</option>
-        <option value="tennis">网球</option>
-    </select>
-    <p>多选：{{ hobbies }}</p>
-
-    <input type="text" v-model.lazy="text">
-    <p>{{ text }}</p>
-
-    <input type="text" v-model.number="num">
-    <p>{{ num }} 类型：{{ typeof num }}</p>
-
-    <input type="text" v-model.trim="message">
-    {{ message }}
+    <h2>使用双向绑定</h2>
+    <input type="text" v-model="msg">
+    <h2>双向绑定原理</h2>
+    <input type="text" :value="msg2" @input="msg2 = $event.target.value">
+    <h2>表单提交</h2>
+    <form @submit.prevent="onConfirm">
+        账号：<input type="text" v-model="userInfo.account"> <br>
+        密码：<input type="password" v-model="userInfo.password"> <br>
+        年龄：<input type="number" v-model="userInfo.age"> <br>
+        性别：
+        男<input type="radio" name="sex" value="boy" v-model="userInfo.sex">
+        女<input type="radio" name="sex" value="girl" v-model="userInfo.sex"><br>
+        爱好：
+        学习<input type="checkbox" value="study" v-model="userInfo.hobby">
+        游戏<input type="checkbox" value="game" v-model="userInfo.hobby">
+        运动<input type="checkbox" value="sport" v-model="userInfo.hobby">
+        <br>
+        所在城市：
+        <select type="text" v-model="userInfo.city">
+            <option value="">选择城市</option>
+            <option value="beijing">北京</option>
+            <option value="shanghai">上海</option>
+            <option value="guangzhou">广州</option>
+        </select>
+        <br>
+        其他信息：<textarea v-model="userInfo.other"></textarea> <br>
+        同意：<input type="checkbox" v-model="userInfo.agree"><a href="www.baidu.com">《用户协议》</a><br>
+        <button>提交</button>
+    </form>
+    <div>用户信息：{{ userInfo }}</div>
+    <h2>指令修饰符</h2>
+    <form>
+        .lazy: <input type="text" v-model.lazy="desc1"><br>
+        .trim: <input type="text" v-model.trim="desc2"><br>
+        .number: <input type="text" v-model.number="desc3"><br>
+    </form>
+    <div>输出预览1：{{ desc1 }}</div>
+    <div>输出预览2：{{ desc2 }}</div>
+    <div>输出预览3：{{ desc3 }}</div>
 </template>

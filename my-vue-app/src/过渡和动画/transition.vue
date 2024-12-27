@@ -1,317 +1,165 @@
-<!-- 简单使用 -->
-<!-- <script>
+<script>
 export default {
-    data() {
-        return {
-            show: false,
-        }
-    },
-    methods: {
-        handleClick() {
-            this.show = !this.show;
-        }
+  data() {
+    return {
+      show: false,
+      elWidth: 100,
+      numbers: [1, 2, 3, 4, 5]
     }
+  },
+  methods: {
+    handleClick() {
+      this.show = !this.show;
+    },
+    beforeEnter(el) {
+      // 设置初始宽度
+      this.elWidth = 100
+      el.style.width = this.elWidth + "px"
+    },
+    enter(el, done) {
+      let count = 1
+      // 每间隔20ms宽度增加10px
+      const interval = setInterval(() => {
+        el.style.width = this.elWidth + count * 10 + "px"
+        count++;
+        if (count > 20) {
+          clearInterval(interval)
+          done() // 动画完成
+        }
+      }, 20)
+    },
+    beforeLeave(el) {
+      this.elWidth = 300
+      el.style.width = this.elWidth + "px"
+    },
+    leave(el, done) {
+      let count = 1
+      // 每间隔20ms宽度减少10px
+      const interval = setInterval(() => {
+        el.style.width = this.elWidth - count * 10 + "px"
+        count++;
+        if (count > 20) {
+          clearInterval(interval)
+          done() // 动画完成
+        }
+      }, 20)
+    },
+    // 随机添加一个元素
+    addItem() {
+      const randomPosition = Math.floor(Math.random() * this.numbers.length)
+      this.numbers.splice(randomPosition, 0, this.numbers.length + 1)
+    },
+    // 删除元素
+    deleteItem(index) {
+      this.numbers.splice(index, 1)
+    }
+  }
 }
 </script>
+
 <template>
-    <div>
-        <transition>
-            <div v-if="show">hello world</div>
-        </transition>
-        <button @click="handleClick">切换</button>
-    </div>
+  <h1>过渡和动画</h1>
+  <h2>过渡动画和过渡动画重命名</h2>
+  <transition>
+    <div v-if="show">hello</div>
+  </transition>
+  <transition name="abcd">
+    <div v-if="show">world</div>
+  </transition>
+  <h2>逐帧动画</h2>
+  <transition name="myslide">
+    <div v-if="show">hello world</div>
+  </transition>
+  <h2>自定义动画</h2>
+  <transition enter-active-class="myenter" leave-active-class="myout">
+    <div v-if="show">hello 自定义动画</div>
+  </transition>
+  <h2>基于JavaScript的动画</h2>
+  <transition :css="false" @before-enter="beforeEnter" @enter="enter" @before-leave="beforeLeave" @leave="leave">
+    <div style="width:100px;height:100px;background-color: green;" v-if="show">hello 基于JavaScript的动画</div>
+  </transition>
+  <button @click="handleClick">切换 {{ show }}</button>
+  <h2>transition-group</h2>
+  <transition-group tag="ul" enter-active-class="myenter" leave-active-class="myout">
+    <li v-for="(number,index) in numbers" :key="number">
+      {{ number }}
+      <button @click="deleteItem(index)">删除</button>
+    </li>
+  </transition-group>
+  <button @click="addItem">添加元素</button>
 </template>
+
 <style>
-/* 简单使用 */
-/* 入场效果 */
-.v-enter-from {
-    opacity: 0;
+/* 开始动画 */
+.abcd-enter-from {
+  opacity: 0;
 }
 
-/* 定义过渡效果 */
-.v-enter-active {
-    transition: opacity 3s ease-out;
+.abcd-enter-active {
+  transition: opacity 6s ease-out;
 }
 
-.v-enter-to {
-    opacity: 1;
+.abcd-enter-to {
+  opacity: 1;
 }
 
-/* 出场效果 */
-.v-leave-from {
-    opacity: 1;
+/* 结束动画 */
+.abcd-leave-from {
+  opacity: 1;
 }
 
-.v-leave-active {
-    transition: opacity 3s ease-in;
+.abcd-leave-active {
+  transition: opacity 6s ease-in;
 }
 
-.v-leave-to {
-    opacity: 0;
-}
-</style> -->
-<!-- 简单使用 -->
 
-<!-- 过渡效果命名 -->
-<!-- <script>
-export default {
-    data() {
-        return {
-            show: false,
-        }
-    },
-    methods: {
-        handleClick() {
-            this.show = !this.show;
-        }
-    }
-}
-</script>
-<template>
-    <div>
-        <transition name="abc">
-            <div v-if="show">hello world222</div>
-        </transition>
-        <button @click="handleClick">切换</button>
-    </div>
-</template>
-<style>
-@keyframes my-anim {
-    0% {
-        transform: translateX(50px);
-    }
-
-    50% {
-        transform: translateX(-50px);
-    }
-
-    100% {
-        transform: translateX(50px);
-    }
+.abcd-leave-to {
+  opacity: 0;
 }
 
-.abc-enter-active {
-    animation: my-anim 3s;
+@keyframes slide-in {
+  0% {
+    transform: translateX(100px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
-.abc-leave-active {
-    animation: my-anim 3s ease-out;
+@keyframes slide-out {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100px);
+  }
 }
-</style> -->
-<!-- 过渡效果命名 -->
 
-<!-- 自定义过渡class -->
-<!-- <script>
-export default {
-    data() {
-        return {
-            show: false,
-        }
-    },
-    methods: {
-        handleClick() {
-            this.show = !this.show;
-        }
-    }
+.myslide-enter-active {
+  animation: slide-in 6s ease;
 }
-</script>
-<template>
-    <div>
-        <transition enter-active-class="myenter" leave-active-class="myleave">
-            <div v-if="show">hello world333</div>
-        </transition>
-        <button @click="handleClick">切换</button>
-    </div>
-</template>
-<style>
-@keyframes my-anim {
-    0% {
-        transform: translateX(50px);
-    }
 
-    50% {
-        transform: translateX(-50px);
-    }
+.myslide-leave-active {
+  animation: slide-out 6s ease;
+}
 
-    100% {
-        transform: translateX(50px);
-    }
+@keyframes anim-scale {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(2);
+  }
 }
 
 .myenter {
-    animation: my-anim 3s;
+  animation: anim-scale 3s;
 }
 
-.myleave {
-    animation: my-anim 3s;
+.myout {
+  animation: anim-scale 3s reverse;
 }
-</style> -->
-<!-- 自定义过渡class -->
-
-<!-- JavaScript钩子 -->
-<!-- <script>
-export default {
-    data() {
-        return {
-            show: false,
-        }
-    },
-    methods: {
-        handleClick() {
-            this.show = !this.show;
-        },
-        handleBeforeEnter(el) {
-            el.style.color = "red";
-        },
-        handleEnter(el, done) {
-            let animation = setInterval(() => {
-                let color = el.style.color;
-                if (color === "red") {
-                    el.style.color = "green";
-                } else {
-                    el.style.color = "red";
-                }
-            }, 1000)
-            setTimeout(() => {
-                clearInterval(animation);
-                done(); //通知动画结束
-            }, 3000)
-        },
-        handleAfterEnter(el) {
-            alert("结束")
-        },
-    }
-}
-</script>
-<template>
-    <div>
-        <transition :css="false" @before-enter="handleBeforeEnter" @enter="handleEnter" @after-enter="handleAfterEnter">
-            <div v-if="show">hello world444</div>
-        </transition>
-        <button @click="handleClick">切换</button>
-    </div>
-</template> -->
-<!-- JavaScript钩子 -->
-
-<!-- 元素间过渡 -->
-<!-- <script>
-export default {
-    data() {
-        return {
-            show: false,
-        }
-    },
-    methods: {
-        handleClick() {
-            this.show = !this.show;
-        }
-    }
-}
-</script>
-<template>
-    <div>
-        <transition mode="out-in" appear>
-            <div v-if="show">hello</div>
-            <div v-else="show">world</div>
-        </transition>
-        <button @click="handleClick">切换</button>
-    </div>
-</template>
-<style>
-.v-enter-to,
-.v-leave-from {
-    opacity: 1;
-}
-
-.v-enter-from,
-.v-leave-to {
-    opacity: 0;
-}
-
-.v-enter-active,
-.v-leave-active {
-    transition: opacity 1s ease-in;
-}
-</style> -->
-<!-- 元素间过渡 -->
-
-<!-- 列表动画 -->
-<!-- <script>
-export default {
-    data() {
-        return {
-            list: [1, 2, 3]
-        }
-    },
-    methods: {
-        handleClick() {
-            this.list.unshift(this.list.length + 1);
-        }
-    }
-}
-</script>
-<template>
-    <div>
-        <transition-group>
-            <span class="list-item" v-for="item in list" :key="item">{{ item }}</span>
-        </transition-group>
-        <button @click="handleClick">添加</button>
-    </div>
-</template>
-<style>
-.list-item {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-.v-enter-from {
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.v-enter-to {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.v-enter-active {
-    transition: all 0.5s ease-in;
-}
-
-.v-move {
-    transition: all 0.5s ease-in;
-}
-</style> -->
-<!-- 列表动画 -->
-
-<!-- 状态动画 -->
-<script>
-export default {
-    data() {
-        return {
-            animNum: 1
-        }
-    },
-    methods: {
-        handleClick() {
-            if (this.animNum < 10) {
-                let interval = setInterval(() => {
-                    this.animNum++;
-                    if (this.animNum === 10) {
-                        clearInterval(interval);
-                    }
-                }, 100);
-            }
-        }
-    }
-}
-</script>
-<template>
-    <div>
-        <transition-group>
-            <div>{{ animNum }}</div>
-        </transition-group>
-        <button @click="handleClick">添加</button>
-    </div>
-</template>
-<!-- 状态动画 -->
+</style>

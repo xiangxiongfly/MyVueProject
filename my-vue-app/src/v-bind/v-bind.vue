@@ -1,4 +1,4 @@
-<script >
+<script>
 export default {
     data() {
         return {
@@ -6,25 +6,26 @@ export default {
             //class
             isActive: true,
             isBgColor: true,
+            activeClass: "active",
+            bgColorClass: "bgColor",
+            error: null,
+            classStr: "active bgColor",
             classObj: {
                 active: true,
                 bgColor: true
             },
-            error: null,
-            activeClass: "active",
-            bgColorClass: "bgColor",
+            classArr: ["active", "bgColor"],
             //style
-            activeColor: "red",
-            bgColor: "grey",
+            color: "red",
+            backgroundColor: "grey",
             fontSize: "30px",
+            styleStr: "color:red;background-color:grey;font-size:30px;",
             styleObj: {
                 color: "red",
                 'background-color': "grey",
                 fontSize: "30px"
             },
-            styleObj2: {
-                border: "2px dashed black"
-            }
+            styleArr: [{ color: "red" }, { 'background-color': "grey" }, { fontSize: "30px" }]
         }
     },
     // 计算属性
@@ -42,31 +43,32 @@ export default {
 <template>
     <h1>v-bind</h1>
     <!-- 使用class -->
-    <p class="active">hello world1</p>
-    <!-- class样式绑定： -->
-    <!-- 绑定对象 -->
-    <p :class="{ active: isActive }">hello world2</p>
-    <p :class="{ active: isActive, bgColor: isBgColor }">hello world3</p>
-    <!-- 绑定对象简写 -->
-    <p :class="classObj">hello world4</p>
+    <!-- 直接使用 -->
+    <p class="active bgColor">hello world</p>
+    <!-- 字符串写法 -->
+    <p :class="classStr">hello world1</p>
+    <!-- 对象写法 -->
+    <p :class="{ active: isActive, bgColor: isBgColor }">hello world2</p>
+    <!-- 对象写法简写 -->
+    <p :class="classObj">hello world2</p>
     <!-- 计算属性 -->
-    <p :class="classObject">hello world5</p>
-    <!-- 绑定数组 -->
-    <p :class="[activeClass, bgColorClass]">hello world6</p>
+    <p :class="classObject">hello world3</p>
+    <!-- 数组写法 -->
+    <p :class="[activeClass, bgColorClass]">hello world4</p>
+    <p :class="classArr">hello world4</p>
 
     <button @click="isActive = !isActive">修改active</button>
     <button @click="isBgColor = !isBgColor">修改bgColor</button>
 
 
-    <!-- 使用内联样式 -->
-    <p style="color:red;">hello1</p>
-    <!-- style样式绑定： -->
-    <!-- 绑定对象 -->
-    <p :style="{ color: activeColor, 'background-color': bgColor, fontSize: fontSize }">hello2</p>
-    <!-- 绑定对象简写 -->
-    <p :style="styleObj">hello3</p>
-    <!-- 绑定数组 -->
-    <p :style="[styleObj, styleObj2]">hello4</p>
+    <!-- 使用style-->
+    <p style="color:red;background-color:grey;font-size:30px;">hello1</p>
+    <!-- 字符串写法 -->
+    <p :style="styleStr">hello1</p>
+    <!-- 对象写法 -->
+    <p :style="styleObj">hello2</p>
+    <!-- 数组写法 -->
+    <p :style="styleArr">hello3</p>
 </template>
 
 <style>
