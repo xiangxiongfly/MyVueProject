@@ -1,47 +1,49 @@
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import {computed, reactive, ref} from 'vue'
 
-let message = ref("hello world")
-let name = ref("小明")
-let age = ref(18)
-
-function reverseMethod() {
-    console.log("reverseMethod")
-    return message.value.split("").reverse().join("")
-}
-
-function changeUserInfo() {
-    userInfo.value = "小花 28"
-}
-
-// 计算属性
-const reverseComputed = computed(() => {
-    console.log("reverseComputed")
-    return message.value.split("").reverse().join("")
-
+let count = ref(0)
+const person = reactive({
+  name: "小明",
+  age: 18
 })
 
-// 可写计算属性
-let userInfo = computed({
-    // getter
-    get() {
-        return name.value + "-" + age.value
-    },
-    // setter
-    set(newValue) {
-        [name.value, age.value] = newValue.split(" ")
+// 方式一：只有getter
+const countComputed = computed(() => {
+      return count.value * 2
     }
+)
+
+// 方式二：具有getter和setter
+let personComputed = computed({
+  get() {
+    return `姓名：${person.name},年龄：${person.age}`
+  },
+  set(newValue) {
+    [person.name, person.age] = newValue.split("-")
+  }
 })
+
+function updateCount() {
+  count.value++
+}
+
+function updatePerson() {
+  person.name = "小黑"
+  person.age = 28
+}
+
+function updatePersonComputed() {
+  personComputed.value = "小花-38"
+}
+
 </script>
 
 <template>
-    <h1>计算属性(Options)</h1>
-    <p>原始值：{{ message }}</p>
-    <p>第一次调用方法：{{ reverseMethod() }}</p>
-    <p>第二次调用方法：{{ reverseMethod() }}</p>
-    <p>第一次调用计算属性：{{ reverseComputed }}</p>
-    <p>第二次调用计算属性：{{ reverseComputed }}</p>
-    <button @click="message = '你好'">修改message</button>
-    <p>{{ userInfo }}</p>
-    <button @click="changeUserInfo">修改userInfo</button>
+  <h1>计算属性(Options)</h1>
+  <p>count：{{ count }}</p>
+  <p>countComputed：{{ countComputed }}</p>
+  <p>personComputed：{{ personComputed }}</p>
+  <button @click="updateCount">修改count</button>
+  <button @click="updatePerson">修改person</button>
+  <button @click="updatePersonComputed">修改person计算属性</button>
 </template>

@@ -1,30 +1,8 @@
-<!-- <script>
-const focus = {
-    mounted: (el) => el.focus()
-}
-export default {
-    directives: {
-        focus
-    }
-}
-</script> 
-
 <template>
-    <div>
-        <input v-focus />
-    </div>
-</template> -->
-
-<template>
-    <div>
-        <div class="header" v-pos:left="100">
-            <input />
-        </div>
-    </div>
+  <p v-highlight:background.delayed.blink="{
+    mainColor:'red',
+    secondColor:'green',
+    delay:500,
+  interval:1000
+  }">hello world</p>
 </template>
-
-<style>
-.header {
-    position: absolute;
-}
-</style>

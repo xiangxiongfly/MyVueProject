@@ -1,97 +1,51 @@
-<script >
-import { mapState, mapGetters } from 'vuex'
+<script setup>
+import CountShow from "@/components/CountShow.vue";
+import CountUpdate from "@/components/CountUpdate.vue";
+import store from "./store/index.js";
 
-export default {
-  data() {
-    return {
-      num: 10
-    }
-  },
-  methods: {
-    increment() {
-      //使用`$store.commit`触发方法
-      this.$store.commit("increment");
-    },
-    add() {
-      this.$store.commit("add", 5);
-    },
-    add2() {
-      this.$store.commit("add2", { num: 10 });
-    },
-    add3() {
-      this.$store.commit({
-        type: "add",
-        num: 20
-      })
-    },
-    increment2() {
-      this.$store.dispatch("increment");
-    },
-    incrementAsync() {
-      this.$store.dispatch("incrementAsync")
-    },
-    changeUserName() {
-      this.$store.commit("updateUserName");
-    },
-    changeStudentName() {
-      this.$store.commit("student/updateStudentName");
-    }
-  },
-  //mapState传对象
-  // computed: mapState({
-  //   //简化代码：
-  //   //方式一；使用箭头函数
-  //   // count: state => state.count,
-  //   //方式二：字符串参数，等价于`state => state.count`
-  //   count: "count"
-  // })
-  //mapState传数组
-  // computed: mapState(["count", "msg"])
-  //对象扩展运算符
-  computed: {
-    addNum() {
-      return this.num + 5;
-    },
-    ...mapState(["count", "msg"]),
-    ...mapGetters(["reverseMsg", "reverseMsgLength"])
-  }
-}
+const changeAge = () => {
+  store.commit("increaseAge", 1);
+};
+const changeName = () => {
+  store.commit("changeName", "a");
+};
+const changeAgeAsync = () => {
+  store.dispatch("increaseAgeAsync", 2);
+};
+const changeNameAsync = () => {
+  store.dispatch("changeNameAsync", "b");
+};
+
+const changeStuAge = () => {
+  store.commit("student/increaseAge", 1);
+};
+const changeStuAgeAsync = () => {
+  store.dispatch("student/increaseAgeAsync", 2);
+};
 </script>
 
 <template>
-  <p>count: {{ $store.state.count }}</p>
-  <p>{{ count }}</p>
-  <p>{{ msg }}</p>
-  <p>{{ addNum }}</p>
-  <!-- 方式一，不推荐 -->
-  <button @click="$store.state.count++">修改count</button>
-  <!-- 方式二 -->
-  <button @click="increment">修改count</button>
-  <!-- 方式三，提交参数 -->
-  <button @click="add">修改num（提交参数 ）</button>
-  <!-- 方式四，提交对象 -->
-  <button @click="add2">修改num（提交对象）</button>
-  <!-- 方式五：对象风格提交 -->
-  <button @click="add3">修改num（对象风格提交）</button>
+  <CountShow/>
+  <CountUpdate/>
 
-  <!-- 使用actions -->
-  <button @click="increment2">修改num(actions)</button>
-  <button @click="incrementAsync">修改num(异步)</button>
+  <hr/>
 
-  <p>{{ $store.getters.reverseMsg }}</p>
-  <p>{{ $store.getters.reverseMsgLength }}</p>
-  <p>{{ reverseMsg }}</p>
-  <p>{{ reverseMsgLength }}</p>
+  <h2>子模块</h2>
+  <p>name: {{ store.state.user.name }}</p>
+  <p>age: {{ store.state.user.age }}</p>
+  <p>age是奇数还是偶数: {{ store.getters.ageOddOrEven }}</p>
+  <button @click="changeAge">修改age</button>
+  <button @click="changeName">修改name</button>
+  <button @click="changeAgeAsync">修改age(异步执行)</button>
+  <button @click="changeNameAsync">修改name(异步执行)</button>
 
-  <h2>user模块</h2>
-  <p>{{ $store.state.user.userName }}</p>
-  <button @click="changeUserName">修改userName</button>
-  <p>{{ $store.getters.userNameAge }}</p>
+  <hr>
 
-  <h2>student模块</h2>
-  <p>{{ $store.state.student.userName }}</p>
-  <button @click="changeStudentName">修改studentName</button>
-  <p>{{ $store.getters["student/userNameAge"] }}</p>
+  <h2>命名空间</h2>
+  <p>student age:{{ store.state.student.age }}</p>
+  <p>student name:{{ store.getters["student/oddOrEven"] }}</p>
+  <button @click="changeStuAge">修改age</button>
+  <button @click="changeStuAgeAsync">修改age(异步执行)</button>
+
+  <hr>
 </template>
-
-<style ></style>

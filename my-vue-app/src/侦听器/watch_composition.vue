@@ -1,83 +1,66 @@
 <script setup>
-import { reactive, ref, watch, watchEffect } from 'vue';
+import {reactive, ref, watch, watchEffect} from 'vue';
 
-let msg = ref("hello")
-let msg1 = ref("hello1")
-let msg2 = ref("hello2")
-let message = ref("hello world")
-let isHidden = ref(true)
-let user = reactive({
-    name: "小明",
-    age: 18,
-    sex: true
+const msg = ref("hello")
+// 监听单个数据
+watch(msg, (newVal, oldVal) => {
+  console.log("msg发生变化", `新值：${newVal} 旧值：${oldVal}`)
 })
 
-const changeMsg1 = () => {
-    msg1.value = "你好1"
-}
-const changeMsg2 = () => {
-    msg2.value = "你好2"
-}
-
-// 方式一：msg变化时调用
-watch(msg, (newValue, oldValue) => {
-    console.log("新值：" + newValue, "旧值：" + oldValue)
+const name = ref("小明")
+const age = ref(18)
+// 监听多个数据
+watch([name, age], ([newName, newAge], [oldName, oldAge]) => {
+  console.log("name或age发生变化", `新值：${newName}-${newAge} 旧值：${oldName}-${oldAge}`)
 })
 
-// 侦听多个数据
-watch([msg1, msg2], ([newMsg1, newMsg2], [oldMsg1, oldMsg2]) => {
-    console.log("msg1或msg2发生变化：", `新值：${[newMsg1, newMsg2]}`, `旧值：${[oldMsg1, oldMsg2]}`);
+const userRef = ref({
+  name: "小白",
+  age: 18
 })
-
-// 方式二：立即调用
-watch(message,
-    (newValue, oldValue) => {
-        console.log("立即调用");
-        if (newValue.length < 5 || newValue.length > 10) {
-            isHidden.value = false
-        } else {
-            isHidden.value = true
-        }
-    },
-    { immediate: true }
-)
-
-// 方式三：深度监听，监听对象的每个属性
-// 直接给 watch() 传入一个响应式对象，会隐式地创建一个深层侦听器——该回调函数在所有嵌套的变更时都会被触发
-watch(user,
-    (newValue) => {
-        console.log("深度监听：", newValue)
-    },
-    { deep: true }
-)
-
-// 方式四：监听指定属性
-// 这里需要用一个返回该属性的 getter 函数：
-watch(
-    () => user.name,
-    (newName) => {
-        console.log("user.name的新值：", newName)
+// 深度监听ref对象
+watch(userRef,
+    (newVal, oldVal) => {
+      console.log("深度监听ref对象", `新值：${newVal}  旧值：${oldVal}`)
+    }, {
+      deep: true
     }
 )
+const updateUserRef = () => {
+  userRef.value.name += "111"
+}
 
-// watchEffect，类似于深度监听
-watchEffect(() => {
-    console.log("watchEffect:", user.age);
+const personReactive = reactive({
+  name: "小黑",
+  age: 10
 })
+// 监听reactive对象，默认为深度监听
+watch(personReactive, (newVal, oldVal) => {
+  console.log("监听reactive对象", `新值：${newVal}  旧值：${oldVal}`)
+})
+const updatePersonReactive = () => {
+  personReactive.name += "123"
+}
 
+// 可以监听所有数据
+watchEffect(() => {
+  console.log("数据发生变化了", personReactive.name)
+})
 </script>
 
 <template>
-    <h1>侦听器(Composition)</h1>
-    <p>{{ msg }}</p>
-    <button @click="msg = '你好'">修改msg</button>
-    <p>{{ msg1 }}-{{ msg2 }}</p>
-    <button @click="changeMsg1">修改msg1</button>
-    <button @click="changeMsg2">修改msg2</button>
-    <p>{{ message }}</p>
-    <input type="text" v-model="message"><br>
-    <p :hidden="isHidden">输入框中的内容不能小于5或大于10</p>
-    <p>{{ user }}</p>
-    <button @click="user.name = '小白'">修改user.name</button>
-    <button @click="user.age = 28">修改user.age</button>
+  <h1>侦听器(Composition)</h1>
+  <h2>监听单个数据</h2>
+  <p>{{ msg }}</p>
+  <button @click="msg='哈喽'">修改msg</button>
+  <h2>监听多个数据</h2>
+  <p>{{ name }} - {{ age }}</p>
+  <button @click="name='小华'">修改name</button>
+  <button @click="age=28">修改age</button>
+  <h2>深度监听ref对象</h2>
+  <p>{{ userRef }}</p>
+  <button @click="updateUserRef">修改ref对象</button>
+  <h2>监听reactive对象</h2>
+  <p>{{ personReactive }}</p>
+  <button @click="updatePersonReactive">修改reactive对象</button>
 </template>

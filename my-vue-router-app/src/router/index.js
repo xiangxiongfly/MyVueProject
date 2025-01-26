@@ -1,138 +1,186 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from "vue-router";
+import {createRouter, createWebHistory,} from "vue-router";
 
-//引入组件
-import Home from "../views/Home.vue";
-import About from "../views/About.vue";
-import NotFound from "../views/NotFound.vue";
-import Parent from "../views/Parent.vue";
-import One from "../views/One.vue";
-import Two from "../views/Two.vue";
-import Page from "../views/Page.vue";
-import Info from "../views/Info.vue";
-import ShopTop from "../views/shop/ShopTop.vue";
-import ShopMain from "../views/shop/ShopMain.vue";
-import ShopFooter from "../views/shop/ShopFooter.vue";
-import Sidebar from "../views/sidebar/Sidebar.vue";
-import LeftSidebar from "../views/sidebar/LeftSidebar.vue";
-import MainContent from "../views/sidebar/MainContent.vue";
-import RightSidebar from "../views/sidebar/RightSidebar.vue";
-import Login from "../views/Login.vue";
-// import User from "../views/User.vue";
-// 路由懒加载
-const User = () => import("../views/User.vue");
+import UserParams from "@/views/user/UserParams.vue";
+import User from "@/views/user/User.vue";
+import UserQuery from "@/views/user/UserQuery.vue";
+import UserProps from "@/views/user/UserProps.vue";
+import UserDetail from "@/views/user/UserDetail.vue";
+import HomeHeader from "@/components/HomeHeader.vue";
+import HomeFooter from "@/components/HomeFooter.vue";
+import News from "@/views/news/News.vue";
+import NewsDetail from "@/views/news/NewsDetail.vue";
+import MyAnimate from "@/views/MyAnimate.vue";
+import Parent from "@/views/nest/Parent.vue";
+import Page from "@/views/Page.vue";
+import NotFound from "@/views/NotFound.vue";
+import One from "@/views/nest/One.vue";
+import Two from "@/views/nest/Two.vue";
+import Home from "@/views/Home.vue";
+import MyRouter from "@/views/MyRouter.vue";
 
 //注册路由表
 const routes = [
-  //别名
-  // { path: "/", name: "homePage", alias: "/home", component: Home },
-  //多个别名
-  { path: "/", name: "homePage", alias: ["/home", "/index"], component: Home },
+    // 别名
+    // { path: "/", name: "homePage", alias: "/home", component: Home },
+    // 多个别名
+    // {path: "/", name: "homePage", alias: ["/home", "/index"], component: Home},
 
-  //动态路由：
-  { path: "/about/name/:name/age/:age", name: "about", component: About },
-  //动态路由：限制age为数字
-  //   { path: "/about/name/:name/age/:age(\\d+)", component: About },
-  //动态路由：限制age可传多个参数
-  //   { path: "/about/name/:name/age/:age+", component: About },
-  //动态路由：限制age可有可无
-  //   { path: "/about/name/:name/age/:age*", component: About },
-
-  { path: "/login", name: "login", component: Login },
-
-  //嵌套路由
-  {
-    path: "/parent",
-    component: Parent,
-    children: [
-      { path: "one", component: One },
-      { path: "two", component: Two },
-    ],
-  },
-
-  //编程式路由
-  { path: "/page", component: Page },
-  { path: "/info", component: Info },
-
-  //命名视图
-  {
-    path: "/shop",
-    components: {
-      ShopMain,
-      ShopTop, //ShopTop:ShopTop的简写
-      ShopFooter,
+    {
+        path: "/myrouter",
+        component: MyRouter,
+        beforeEnter: (to, from, next) => {
+            console.log("独享守卫 beforeEnter", to, from);
+            next();
+        }
     },
-  },
-  //嵌套命名视图
-  {
-    path: "/sidebar",
-    component: Sidebar,
-    children: [
-      {
-        path: "info",
-        components: { LeftSidebar, MainContent, RightSidebar },
-      },
-    ],
-  },
 
-  //props
-  { path: "/user/:name/:age/:address", component: User, props: true },
+    {
+        path: "/myanimate",
+        name: "myanimate",
+        component: MyAnimate,
+        meta: {
+            enterActiveClass: "animate__bounceIn",
+            leaveActiveClass: "animate__bounceOut",
+        }
+    },
+    // 嵌套路由
+    {
+        path: "/parent",
+        component: Parent,
+        children: [
+            {path: "", component: One}, // 默认显示
+            {path: "one", component: One},
+            {path: "two", component: Two},
+        ],
+    },
 
-  //重定向，方式一：字符串路径
-  // { path: "/home", redirect: "/" },
-  //重定向，方式二：路径对象
-  // { path: "/home", redirect: { path: "/" } },
-  //重定向，方式三：命名路由
-  // { path: "/home", redirect: { name: "homePage" } },
-  //重定向，方式四：方法
-  // {
-  //   path: "/home/:searchText",
-  //   redirect: (to) => {
-  //     return { path: "/home", query: { q: to.params.searchText } };
-  //   },
-  // },
+    // user模块
+    {
+        path: "/user",
+        name: "user",
+        component: User,
+        children: [
+            {path: "myparams/:name/:age/:sex", component: UserParams},
+            {path: "myquery", component: UserQuery},
+            {
+                path: "myprops/:name/:age/:sex", component: UserProps,
+                // 方式一：设置为true，只能映射params参数
+                // props: true
+                // 方式二：设置为对象，只能映射对象内的属性
+                // props: {
+                //     msg: "hello world"
+                // }
+                // 方式三：设置为函数，可以映射任意内容
+                props: (route) => {
+                    return {
+                        name: route.params.name,
+                        age: route.query.age,
+                        sex: route.params.sex,
+                        msg: "hello world"
+                    };
+                }
+            },
+            {
+                name: "userDetail", // 命名路由
+                path: "detail/:id",
+                component: UserDetail,
+                props: (route) => {
+                    return {
+                        id: route.params.id,
+                        name: route.query.name,
+                        age: route.query.age
+                    };
+                }
+            }
+        ]
+    },
 
-  //配置404
-  { path: "/:path(.*)", component: NotFound },
+    // 命名视图
+    {
+        path: "/",
+        components: {
+            default: Home,
+            "router-view-header": HomeHeader,
+            "router-view-footer": HomeFooter,
+        },
+    },
+
+    // 嵌套命名视图
+    {
+        path: "/news",
+        component: News,
+        children: [
+            {
+                path: "detail",
+                components: {
+                    default: NewsDetail,
+                    HomeHeader,
+                    HomeFooter
+                },
+            },
+        ],
+    },
+
+    // 编程式路由
+    {path: "/page", component: Page},
+
+    // 重定向
+    // 字符串路径
+    // {
+    //     path: "/redirect-to-user",
+    //     redirect: "/user",
+    // },
+    // 路径对象
+    // {
+    //     path: "/redirect-to-user",
+    //     redirect: {
+    //         path: "/user",
+    //     },
+    // },
+    // 命名路由
+    {
+        path: "/redirect-to-user",
+        redirect: {
+            name: "user",
+        },
+    },
+
+    // 配置404
+    {
+        name: "404",
+        path: "/404",
+        component: NotFound,
+    },
+    {
+        path: "/:notFound(.*)",
+        redirect: "/404"
+    },
 ];
-
-//创建Router实例，Hash模式
-// const router = createRouter({
-//   history: createWebHashHistory(),
-//   routes,
-// });
 
 //HTML5模式
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+    history: createWebHistory(),
+    routes,
+    linkActiveClass: "global-active" // 全局配置激活样式
 });
 
-//全局前置守卫
-//返回值为false
-// router.beforeEach((to, from) => {
-//   console.log("全局前置守卫");
-//   console.log(to);
-//   console.log(from);
-//   return false;
-// });
+// 全局前置守卫
+router.beforeEach((to, from, next) => {
+    console.log("全局前置守卫：", to, from);
+    next(); // 继续执行
+});
 
-//全局前置守卫
-//返回值为路由地址
-// router.beforeEach((to, from) => {
-//   //重定向到Login页面
-//   let isLogin = false;
-//   if (to.name !== "login" && !isLogin) {
-//     return {
-//       name: "login",
-//       // 通过 replace 选项来进行路由跳转，不生成新的历史记录
-//       replace: true,
-//     };
-//   }
-// });
+// 全局解析守卫
+router.beforeEach((to, from, next) => {
+    console.log("全局解析守卫：", to, from);
+    next();
+});
+
+// 全局后置守卫
+router.afterEach((to, from, next) => {
+    console.log("全局后置守卫：", to, from);
+});
+
 
 //全局前置守卫
 //使用next
