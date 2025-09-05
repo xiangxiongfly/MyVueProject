@@ -1,14 +1,16 @@
 <script setup>
-import {ref} from "vue";
 import {Lock, User} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
+import {ref} from "vue";
 
-const form = ref();
+const formRef = ref();
+// 定义表单数据对象
 const formModel = ref({
   username: "",
   password: "",
   repassword: "",
 });
+// 定义规则对象
 const rules = {
   username: [
     {required: true, message: "请输入用户名", trigger: "blur"},
@@ -22,6 +24,7 @@ const rules = {
     {required: true, message: "请再次输入密码", trigger: "blur"},
     {pattern: /^\S{6,15}$/, message: "密码必须是6~15位非空字符", trigger: "blur"},
     {
+      // 自定义校验规则
       validator: (rule, value, callback) => {
         if (value !== formModel.value.password) {
           callback(new Error("两次密码不一致！"));
@@ -35,7 +38,7 @@ const rules = {
 };
 
 const registerClick = async () => {
-  await form.value.validate();
+  await formRef.value.validate();
   const ret = `用户名：${formModel.value.username} 密码：${formModel.value.password} 再次密码：${formModel.value.repassword}`;
   ElMessage.success(ret);
 };
@@ -44,7 +47,7 @@ const registerClick = async () => {
 <template>
   <el-row class="page">
     <el-col :span="6" class="horizontal-center">
-      <el-form ref="form" :model="formModel" :rules="rules" autocomplete="off">
+      <el-form ref="formRef" :model="formModel" :rules="rules" autocomplete="off">
         <el-form-item size="large">
           <h1>注册</h1>
         </el-form-item>

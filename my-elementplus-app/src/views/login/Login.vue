@@ -3,12 +3,15 @@ import {ref} from "vue";
 import {Lock, User} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
 
-const form = ref();
+// 定义引用对象
+const formRef = ref();
+// 定义表单数据对象
 const formModel = ref({
   username: "",
   password: "",
   isRemember: false
 });
+// 定义规则对象
 const rules = {
   username: [
     {required: true, message: "请输入用户名", trigger: "blur"},
@@ -21,7 +24,7 @@ const rules = {
 };
 
 const loginClick = async () => {
-  await form.value.validate();
+  await formRef.value.validate();
   const ret = `用户名：${formModel.value.password} 密码：${formModel.value.password} 是否记住：${formModel.value.isRemember}`;
   ElMessage.success(ret);
 };
@@ -30,7 +33,7 @@ const loginClick = async () => {
 <template>
   <el-row class="page">
     <el-col :span="6" class="horizontal-center">
-      <el-form ref="form" :model="formModel" :rules="rules" autocomplete="off" size="large">
+      <el-form ref="formRef" :model="formModel" :rules="rules" autocomplete="off" size="large">
         <el-form-item>
           <h1>登录</h1>
         </el-form-item>
